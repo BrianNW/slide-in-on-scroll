@@ -62,9 +62,24 @@
     const sliderImages = document.querySelectorAll('.slide-in');
     // console.log(window.scrollY); //logs how much we're scrolling down from the top
     function checkSlide(e) {
+      sliderImages.forEach(sliderImage => {
       // console.log(e);
-      cons slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2; //gives us current pixel level of where user is at the bottom
+      // halfway through the image
+      const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2; //gives us current pixel level of where user is at the bottom
       // console.log(slideInAt);
+      // bottom of the image
+      const imageBottom = sliderImage.offsetTop + sliderImage.height;
+      // this makes sure slideInAt value is greater than top of image
+      const isHalfShown = slideInAt > sliderImage.offsetTop;
+      //we need to make sure we're not scrolled all the way past the image
+      const isNotScrolledPast = window.scrollY < imageBottom;
+      if(isHalfShown && isNotScrolledPast) {
+        sliderImage.classList.add('active');
+
+      }else {
+        sliderImage.classList.remove('active');
+      }
+    });
     }
 
     window.addEventListener('scroll', debounce(checkSlide));
